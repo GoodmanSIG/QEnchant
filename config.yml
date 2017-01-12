@@ -1,0 +1,203 @@
+version: '0.1.7'
+locale: 'pl'
+dynamic: true
+random: true
+rename: false
+repair: true
+particles: true
+
+cennik:
+  unbreaking:
+    '1':
+      LvL: '5'
+      Bookshelfs: '0'
+    '2':
+      LvL: '10'
+      Bookshelfs: '5'
+    '3':
+      LvL: '15'
+      Bookshelfs: '5'
+  other:
+    Efficiency:
+      '1':
+        LvL: '5'
+        Bookshelfs: '0'
+      '2':
+        LvL: '10'
+        Bookshelfs: '5'
+      '3':
+        LvL: '20'
+        Bookshelfs: '10'
+      '4':
+        LvL: '25'
+        Bookshelfs: '15'
+      '5':
+        LvL: '35'
+        Bookshelfs: '20'
+    Fortune:
+      '1':
+        LvL: '5'
+        Bookshelfs: '0'
+      '2':
+        LvL: '10'
+        Bookshelfs: '5'
+      '3':
+        LvL: '20'
+        Bookshelfs: '10'
+    Silk Touch:
+      '1':
+        LvL: '5'
+        Bookshelfs: '0'
+    Sharpness:
+      '1':
+        LvL: '5'
+        Bookshelfs: '0'
+      '2':
+        LvL: '10'
+        Bookshelfs: '5'
+      '3':
+        LvL: '20'
+        Bookshelfs: '10'
+      '4':
+        LvL: '25'
+        Bookshelfs: '15'
+      '5':
+        LvL: '35'
+        Bookshelfs: '20'
+    Fire Aspect:
+      '1':
+        LvL: '25'
+        Bookshelfs: '15'
+      '2':
+        LvL: '30'
+        Bookshelfs: '20'
+    Looting:
+      '1':
+        LvL: '5'
+        Bookshelfs: '0'
+      '2':
+        LvL: '10'
+        Bookshelfs: '5'
+      '3':
+        LvL: '20'
+        Bookshelfs: '10'
+    Knockback:
+      '1':
+        LvL: '5'
+        Bookshelfs: '0'
+      '2':
+        LvL: '10'
+        Bookshelfs: '5'
+    Smite:
+      '1':
+        LvL: '5'
+        Bookshelfs: '0'
+      '2':
+        LvL: '10'
+        Bookshelfs: '5'
+      '3':
+        LvL: '20'
+        Bookshelfs: '10'
+      '4':
+        LvL: '25'
+        Bookshelfs: '15'
+      '5':
+        LvL: '35'
+        Bookshelfs: '20'
+    Protection:
+      '1':
+        LvL: '5'
+        Bookshelfs: '0'
+      '2':
+        LvL: '10'
+        Bookshelfs: '5'
+      '3':
+        LvL: '20'
+        Bookshelfs: '10'
+      '4':
+        LvL: '25'
+        Bookshelfs: '15'
+    Fire Protection:
+      '1':
+        LvL: '5'
+        Bookshelfs: '0'
+      '2':
+        LvL: '10'
+        Bookshelfs: '5'
+      '3':
+        LvL: '20'
+        Bookshelfs: '10'
+      '4':
+        LvL: '25'
+        Bookshelfs: '15'
+    Blast Protection:
+      '1':
+        LvL: '5'
+        Bookshelfs: '0'
+      '2':
+        LvL: '10'
+        Bookshelfs: '5'
+      '3':
+        LvL: '20'
+        Bookshelfs: '10'
+      '4':
+        LvL: '25'
+        Bookshelfs: '15'
+    Projectile Protection:
+      '1':
+        LvL: '5'
+        Bookshelfs: '0'
+      '2':
+        LvL: '10'
+        Bookshelfs: '5'
+      '3':
+        LvL: '20'
+        Bookshelfs: '10'
+      '4':
+        LvL: '25'
+        Bookshelfs: '15'
+    Thorns:
+      '1':
+        LvL: '8'
+        Bookshelfs: '3'
+      '2':
+        LvL: '10'
+        Bookshelfs: '8'
+      '3':
+        LvL: '20'
+        Bookshelfs: '13'
+    Feather Falling:
+      '1':
+        LvL: '8'
+        Bookshelfs: '3'
+      '2':
+        LvL: '10'
+        Bookshelfs: '8'
+      '3':
+        LvL: '20'
+        Bookshelfs: '13'
+    Power:
+      '1':
+        LvL: '8'
+        Bookshelfs: '3'
+      '2':
+        LvL: '10'
+        Bookshelfs: '8'
+    Punch:
+      '1':
+        LvL: '8'
+        Bookshelfs: '3'
+      '2':
+        LvL: '10'
+        Bookshelfs: '8'
+    Flame:
+      '1':
+        LvL: '8'
+        Bookshelfs: '3'
+      '2':
+        LvL: '10'
+        Bookshelfs: '8'
+    Infinity:
+      '1':
+        LvL: '20'
+        Bookshelfs: '10'
