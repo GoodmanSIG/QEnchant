@@ -1,0 +1,23 @@
+gname: '&8* &6Q&eENCHANT &8*'
+items:
+  random: sunflower
+  repair: anvil
+  name: name tag
+  books: bookshelf
+names:
+  random: '&a&lRandom'
+  repair: '&e&lRepair'
+  name: '&3&lName'
+  books: '&a&lBooks: &e_BOOKS_'
+item: enchanted book
+name: '&5> &c&l_ENCHANTMENT_ _ELVL_ &5<'
+lore:
+  - '&a>>> &2XP: &7_LVL_ LvL &a<<<'
+  - '&a>>> &2BOOKS: &7_BOOK_ &a<<<'
+
+#Custom names of enchantments
+#Remember to start every word in real name of enchantment usign big letter
+#WARRNING: Custom names are only used in gui
+custom:
+  Fire Aspect: 'Fire'
+  Feather Falling: 'NoFall'
