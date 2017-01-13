@@ -5,7 +5,7 @@ options:
 	s: sharpness and fire aspect, knockback, smite, looting
 	a: protection and fire protection, blast protection, projectile protection, thorns, feather falling
 	t: efficiency and fortune, silk touch
-	b: flame and infinity, punch, power, power
+	b: flame and infinity, punch, power
 	
 function qeReload(t: text):
 	set {qeopt::po} to single value "particles" get of "plugins/QEnchant/config.yml"
@@ -307,8 +307,7 @@ on place of enchantment table:
 		set {tien::%event-block%} to true
 		while {tien::%event-block%} is true:
 			wait 0.6 second
-			spawn 15 of particle spell:0 offset by 0, 1, 0 at event-block
-		
+			spawn 15 of particle spell:0 offset by 0, 1, 0 at event-block	
 	
 command /eee [<player>]:
 	permission: op
