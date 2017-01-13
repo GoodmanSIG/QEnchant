@@ -1,0 +1,306 @@
+options:
+	zs: 6 and 7, 8, 15, 16, 17, 26, 27, 28, 35, 36, 37, 46, 47, 48, 55, 56, 57
+	bars: 7 and 16, 17, 25, 34, 43, 41, 32, 14, 5
+	bl: 0 and 1,2,3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44
+	s: sharpness and fire aspect, knockback, smite, looting
+	a: protection and fire protection, blast protection, projectile protection, thorns, feather falling
+	t: efficiency and fortune, silk touch
+	b: flame and infinity, punch, power, power
+	
+function qeReload(t: text):
+	set {qeopt::po} to single value "particles" get of "plugins/QEnchant/config.yml"
+	set {qeopt::pt} to single value "particle" get of "plugins/QEnchant/config.yml"
+	set {qelore::*} to value list "lore" get of "plugins/QEnchant/gui.yml"
+	set {qeitem} to single value "item" get of "plugins/QEnchant/gui.yml" parsed as itemtype
+	set {qename} to single value "name" get of "plugins/QEnchant/gui.yml"
+	set {qegn} to single value "gname" get of "plugins/QEnchant/gui.yml"
+	set {qegui::item::random} to single value "items.random" get of "plugins/QEnchant/gui.yml" parsed as itemtype
+	set {qegui::item::repair} to single value "items.repair" get of "plugins/QEnchant/gui.yml" parsed as itemtype
+	set {qegui::item::name} to single value "items.name" get of "plugins/QEnchant/gui.yml" parsed as itemtype
+	set {qegui::item::book} to single value "items.books" get of "plugins/QEnchant/gui.yml" parsed as itemtype
+	set {qegui::name::repair} to single value "names.repair" get of "plugins/QEnchant/gui.yml"
+	set {qegui::name::random} to single value "names.random" get of "plugins/QEnchant/gui.yml"
+	set {qegui::name::name} to single value "names.name" get of "plugins/QEnchant/gui.yml"
+	set {qegui::name::book} to single value "names.books" get of "plugins/QEnchant/gui.yml"
+
+function qeUnbr(g: player):
+	loop integers between 1 to 3:
+		set {_nu::%loop-number%} to colored {qename}
+		set {_lvlu::%loop-number%} to single value "prices.unbreaking.%loop-number%.LvL" get of "plugins/QEnchant/config.yml" parsed as integer
+		set {_cnu::%loop-number%} to single value "custom.unbreaking" get of "plugins/QEnchant/gui.yml"
+		set {_bibu::%loop-number%} to single value "prices.unbreaking.%loop-number%.Bookshelfs" get of "plugins/QEnchant/config.yml" parsed as integer
+		if {_cnu::%loop-number%} is set:
+			replace all "_ENCHANTMENT_" in {_nu::%loop-number%} with "%{_cnu::%loop-number%}%"
+		else:
+			replace all "_ENCHANTMENT_" in {_nu::%loop-number%} with "Unbreaking"
+		replace all "_ELVL_" in {_nu::%loop-number%} with "%loop-number%"
+		set {_lu::%loop-number%} to "%colored {qelore::*}%"
+		replace all " and " with "||" in {_lu::%loop-number%}
+		replace all " , " with "||" in {_lu::%loop-number%}
+		replace all "_LVL_" with "%{_lvlu::%loop-number%}%" in {_lu::%loop-number%}
+		replace all "_BOOK_" with "%{_bibu::%loop-number%}%" in {_lu::%loop-number%}
+		if loop-number is 1:
+			set slot 26 of {_g}'s current inventory to {qeitem} named "%{_nu::%loop-number%}%" with lore "%{_lu::%loop-number%}%"
+		else if loop-number is 2:
+			set slot 35 of {_g}'s current inventory to {qeitem} named "%{_nu::%loop-number%}%" with lore "%{_lu::%loop-number%}%"
+		else:
+			set slot 44 of {_g}'s current inventory to {qeitem} named "%{_nu::%loop-number%}%" with lore "%{_lu::%loop-number%}%"
+	loop 3 times:
+		set {_lvlu::%loop-number%} to single value "prices.unbreaking.%loop-number%.LvL" get of "plugins/QEnchant/config.yml" parsed as integer
+		set {_cnu::%loop-number%} to single value "custom.unbreaking" get of "plugins/QEnchant/gui.yml"
+		set {_bibu::%loop-number%} to single value "prices.unbreaking.%loop-number%.Bookshelfs" get of "plugins/QEnchant/config.yml" parsed as integer
+	set {p::%{_g}%::26} to "Unbreaking 1" parsed as enchantment type
+	set {pl::%{_g}%::26} to {_lvlu::1}
+	set {pb::%{_g}%::26} to {_bibu::1}
+	set {p::%{_g}%::35} to "Unbreaking 2" parsed as enchantment type
+	set {pl::%{_g}%::35} to {_lvlu::2}
+	set {pb::%{_g}%::35} to {_bibu::2}
+	set {p::%{_g}%::44} to "Unbreaking 3" parsed as enchantment type
+	set {pl::%{_g}%::44} to {_lvlu::3}
+	set {pb::%{_g}%::44} to {_bibu::3}	
+	
+function qeRepair(g: player):
+	set {_item} to slot 8 of {_g}'s current inventory
+	set {_dmg} to damage of {_item}
+	if {_dmg} is bigger or equal to 1:
+		set {_g}'s level to {_g}'s level -5
+		set damage of {_item} to 0
+		set slot 8 of {_g}'s current inventory to {_item}
+	
+	
+function qeFull(g: player, t2: text):
+	set {_t} to {_t2} parsed as itemtype
+	set {_slot1} to -1
+	set {_slot2} to 0
+	if {_t} is any helmet or any chestplate or any leggings or any boots:
+		set {_o::*} to {@a}
+	if {_t} is any pickaxe or any shovel or any axe:
+		set {_o::*} to {@t}
+	if {_t} is bow:
+		set {_o::*} to {@b}
+	if {_t} is any sword:
+		set {_o::*} to {@s}
+	loop {_o::*}:
+		loop 5 times:
+			set {_lvl::%loop-value-1%} to single value "prices.other.%loop-value-1%.%loop-number%.LvL" get of "plugins/QEnchant/config.yml" parsed as integer
+			set {_cn::%loop-value-1%} to single value "custom.%loop-value-1%" get of "plugins/QEnchant/gui.yml"
+			set {_bib} to single value "prices.other.%loop-value-1%.%loop-number%.Bookshelfs" get of "plugins/QEnchant/config.yml" parsed as integer
+			if {_lvl::%loop-value-1%} is set:
+				add 1 to {_slot1}
+				if {_slot1} is bigger than 4:
+					set {_slot1} to 0
+					add 1 to {_slot2}
+				set {_calc} to {_slot1}+({_slot2}*9)
+				set {p::%{_g}%::%{_calc}%} to "%loop-value-1% %loop-number%" parsed as enchantment type
+				set {pl::%{_g}%::%{_calc}%} to {_lvl::%loop-value-1%}
+				set {pb::%{_g}%::%{_calc}%} to {_bib}
+				set {_n} to {qename}
+				if {_cn::%loop-value-1%} is set:
+					replace all "_ENCHANTMENT_" in {_n} with "%{_cn::%loop-value-1%}%"
+				else:
+					replace all "_ENCHANTMENT_" in {_n} with "%loop-value-1%"
+				replace all "_ELVL_" in {_n} with "%loop-number%"
+				set {_l} to "%colored {qelore::*}%"
+				replace all " and " with "||" in {_l}
+				replace all " , " with "||" in {_l}
+				replace all "_LVL_" with "%{_lvl::%loop-value-1%}%" in {_l}
+				replace all "_BOOK_" with "%{_bib}%" in {_l}
+				if {qenchant::opt::dynamic} is "true":
+					if {qenchant::%{_g}%::bib} is bigger or equal to {_bib}:
+						set slot {_calc} of {_g}'s current inventory to 1 of {qeitem} named "%colored {_n}%" with lore "%{_l}%"
+					else:
+						remove 1 from {_slot1}
+				else:
+					set slot {_calc} of {_g}'s current inventory to 1 of {qeitem} named "%colored {_n}%" with lore "%{_l}%"
+			delete {_lvl::%loop-value-1%}
+			
+function qeRandom(g: player, t: itemtype):
+	if {_g}'s level is bigger or equal to 20:
+		set {_g}'s level to {_g}'s level - 20
+		if {_t} is any helmet or any chestplate or any leggings or any boots:
+			set {_o::*} to {@a}
+		if {_t} is any pickaxe or any shovel or any axe:
+			set {_o::*} to {@t}
+		if {_t} is bow:
+			set {_o::*} to {@b}
+		if {_t} is any sword:
+			set {_o::*} to {@s}
+		set {_r2} to random element out of {_o::*}
+		set {_moc} to random integer between 1 to 5
+		set {_lvl} to single value "prices.other.%{_r2}%.%{_moc}%.LvL" get of "plugins/QEnchant/config.yml" parsed as integer
+		loop 5 times:
+			if {_lvl} is not set:
+				remove 1 from {_moc}
+				set {_lvl} to single value "prices.other.%{_r2}%.%{_moc}%.LvL" get of "plugins/QEnchant/config.yml" parsed as integer
+			else:
+				exit loop
+		set {_full} to "%{_r2}% %{_moc}%" parsed as enchantment type
+		enchant {_t} with {_full}
+		send "%{qenchant::wiad::prefix}% &aYou won &e%{_full}%%{qenchant::wiad::suffix}%" to {_g}
+		set slot 8 of {_g}'s current inventory to {_t}
+		play raw sound "random.anvil_use" at {_g} with pitch 1 volume 10
+		create hologram "&aEnchanted!;" at block above {qeee::%{_g}%} for 2 seconds
+	
+function qeReload(e: text):
+	set {qenchant::wiad::locale} to single value "locale" get of "plugins/QEnchant/config.yml"
+	set {qenchant::opt::dynamic} to colored single value "dynamic" get of "plugins/QEnchant/config.yml"
+	set {qenchant::opt::random} to colored single value "random" get of "plugins/QEnchant/config.yml"
+	set {qenchant::opt::repair} to colored single value "repair" get of "plugins/QEnchant/config.yml"
+	set {qenchant::opt::rename} to colored single value "rename" get of "plugins/QEnchant/config.yml"
+	set {qenchant::wiad::nl} to colored single value "NoLVL" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::nb} to colored single value "NoBOOK" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::ns} to colored single value "NoSPACE" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::su} to colored single value "Success" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::ra} to colored single value "Random" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::re} to colored single value "Repair" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::tn} to colored single value "TypeName" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::na} to colored single value "Name" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::pe} to colored single value "Set" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::ot} to colored single value "Give" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::rel} to colored single value "Reload" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::reling} to colored single value "Reloading" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::title} to colored single value "Title" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::stitle} to colored single value "SubTitle" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::tab} to colored single value "Table" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::nu} to colored single value "NewUpd" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::an} to colored single value "RunningNewest" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::ae} to colored single value "AlredyEnchanted" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::prefix} to colored single value "Prefix" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	set {qenchant::wiad::suffix} to colored single value "Suffix" get of "plugins/QEnchant/messages/messages_%{qenchant::wiad::locale}%.yml"
+	send "%{qenchant::wiad::prefix}% &aPrzeladowano skrypt%{qenchant::wiad::suffix}%" to console	
+	set {qelr} to now
+	
+function qeName(g: player, t: itemtype):
+	close {_g}'s inventory
+	wait 2 ticks
+	open anvil to the {_g}
+	wait a tick
+	set slot 1 of {_g}'s current inventory to {_g}'s tool
+	
+on inventory close:
+	if {neo::%player%} is true:
+		if player can hold slot 8 of player's current inventory:
+			give slot 8 of player's current inventory to player
+		else:
+			drop slot 8 of player's current inventory at player
+	delete {neo::%player%}
+	delete {eqgui1::%player%}
+
+on inventory click:
+	if {neo::%player%} is true:
+		cancel event
+		if slot clicked slot of player's current inventory is {qeitem}:
+			set {_are} to {qenchant::wiad::ae}
+			replace all "_ENCHANT_" in {_are} with "%{p::%player%::%clicked slot%}%"
+			set {_item} to slot 8 of player's current inventory
+			if {_item} is not enchanted with {p::%player%::%clicked slot%}:
+				if player's level is bigger or equal to {pl::%player%::%clicked slot%}:
+					if {qenchant::%player%::bib} is bigger or equal to {pb::%player%::%clicked slot%}:
+						set player's level to player's level - {pl::%player%::%clicked slot%}
+						enchant {_item} with {p::%player%::%clicked slot%}
+						set slot 8 of player's current inventory to {_item}
+						play raw sound "random.anvil_use" at player with pitch 1 volume 10
+						create hologram "%{qenchant::wiad::tab}%;" at block above {qeee::%player%} for 2 seconds
+						set {_ti} to {qenchant::wiad::title}
+						set {_st} to {qenchant::wiad::stitle}
+						replace all "_ENCHANT_" in {_ti} with "%{p::%player%::%clicked slot%}%"
+						replace all "_ENCHANT_" in {_st} with "%{p::%player%::%clicked slot%}%"
+						execute console command "title %player% times 20 40 20"
+						execute console command "/title %player% title {text:""%{_ti}%"",color:""green""}"
+						execute console command "/title %player% subtitle {text:""%{_st}%"",color:""dark_green""}"
+					else:
+						send "%{qenchant::wiad::prefix}% %{qenchant::wiad::nb}%%{qenchant::wiad::suffix}%"
+				else:
+					send "%{qenchant::wiad::prefix}% %{qenchant::wiad::nl}%%{qenchant::wiad::suffix}%"
+			else:
+				send "%{qenchant::wiad::prefix}% %{_are}%%{qenchant::wiad::suffix}%"
+		else:
+			if clicked slot is 24:
+				set {_item} to slot 8 of player's current inventory
+				qeRandom(player, {_item})
+			if clicked slot is 15:
+				qeRepair(player)
+			if clicked slot is 33:
+				set {_item} to slot 8 of player's current inventory
+				qeName(player, {_item})
+	if {eqgui1::%player%} is true:
+		cancel event
+		if clicked slot is 8:
+			if slot 8 of player's current inventory is not ender pearl:
+				set slot 8 of player's current inventory to ender pearl
+				wait a tick
+				qeReload("reload")
+				set {_status} to 0
+				loop 100 times:
+					add 1 to {_status}
+					set slot 8 of player's current inventory to ender pearl named "&aReloading &8[&2%{_status}%%%&8]"
+					wait 1.4 ticks
+				set slot 8 of player's current inventory to 1 of eye of ender named "&aReload" with lore "&aLast reload: &e%{qelr}%"
+			
+			
+on right click on enchantment table:
+	cancel event
+	close player's inventory
+	if {neo::%player%} is not set:
+		set {qenchant::%player%::bib} to 0
+		loop all blocks in radius 3 of event-block:
+			if loop-block is bookshelf:
+				if distance between loop-block and event-block is bigger or equal to 2:
+					if y-coordinate of event-block is less or equal to y-coordinate of loop-block:
+						add 1 to {qenchant::%player%::bib}
+		set {qeee::%player%} to location of clicked block
+		wait 3 ticks
+		execute console command "eee %player%"
+		
+on load:
+	execute console command "gamerule sendCommandFeedback false"
+			
+			
+command /qenchant [<text>]:
+	trigger:
+		if arg-1 is not set:
+			set {eqgui1::%player%} to true
+			set {_ver} to single value "version" get of "plugins/QEnchant/config.yml"
+			set {_av} to "&8Connectiong to the server..."
+			open chest with 1 row named "&8*            &e&lQ&6&lEnchant&8            *" to player
+			set slot 8 of player's current inventory to 1 of eye of ender named "&aReload" with lore "&aLast reload: &e%{qelr}%"
+			set slot 0 of player's current inventory to 1 of paper named "&aUpdate" with lore "&aCurrent version: &e%{_ver}%||&aNewest version: &eLoading...||%colored {_av}%"
+			loop 500 times:
+				wait 3 ticks
+				if {_nver} is not set:
+					set {_nver} to result of connect to "https://raw.githubusercontent.com/Quaczi/QEnchant/master/version.yml"
+				else:
+					if {_nver} is not {_ver}:
+						set {_av} to "&2There is new update anvabile&8."
+					else:
+						set {_av} to "&cYou are running the newest version&8."
+					set slot 0 of player's current inventory to 1 of paper named "&aUpdate" with lore "&aCurrent version: &e%{_ver}%||&aNewest version: &e%{_nver}%||%colored {_av}%"
+					stop
+			if {_nver} is not set:
+				set slot 0 of player's current inventory to 1 of paper named "&aUpdate" with lore "&aCurrent version: &e%{_ver}%||&aNewest version: &4Error||&cCannot connect to the server&8."
+			
+			
+	
+command /eee [<player>]:
+	permission: op
+	trigger:
+		qeReload("reload")
+		set {neo::%player-arg%} to true
+		open chest with 5 rows named "%colored {qegn}%" to player-arg
+		wait 2 ticks
+		qeFull(player-arg, "%player-arg's tool%")
+		set slot 8 of player-arg's current inventory to player-arg's tool
+		set player-arg's tool to air
+		set {_bn} to {qegui::name::book}
+		replace all "_BOOKS_" in {_bn} with "%{qenchant::%player-arg%::bib}%"
+		set slot 23 of player-arg's current inventory to 1 of {qegui::item::book} named  "%colored {_bn}%" with lore "&0_" 
+		if {qenchant::opt::random} is "true":
+			set slot 24 of player-arg's current inventory to 1 of {qegui::item::random} named  "%colored {qegui::name::random}%" with lore "&0_" 
+		if {qenchant::opt::repair} is "true":
+			set slot 15 of player-arg's current inventory to 1 of {qegui::item::repair} named  "%colored {qegui::name::repair}%" with lore "&0_"
+		if {qenchant::opt::rename} is "true":
+			set slot 33 of player-arg's current inventory to 1 of {qegui::item::name} named  "%colored {qegui::name::name}%" with lore "&0_"
+		qeUnbr(player-arg)
+		loop {@bars}:
+			set slot loop-number of player-arg's current inventory to 1 of bars named  "&0" with lore "&0"
+			
