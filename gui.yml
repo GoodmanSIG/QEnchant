@@ -19,5 +19,6 @@ lore:
 #Remember to start every word in real name of enchantment usign big letter
 #WARRNING: Custom names are only used in gui
 custom:
+  strength: 'Power'
   Fire Aspect: 'Fire'
   Feather Falling: 'NoFall'
