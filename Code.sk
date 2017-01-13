@@ -279,7 +279,36 @@ command /qenchant [<text>]:
 			if {_nver} is not set:
 				set slot 0 of player's current inventory to 1 of paper named "&aUpdate" with lore "&aCurrent version: &e%{_ver}%||&aNewest version: &4Error||&cCannot connect to the server&8."
 			
+command /qeupd:
+	trigger:
+		set {_ver} to single value "version" get of "plugins/QEnchant/config.yml"
+		set {_nver::*} to result of connect to "https://raw.githubusercontent.com/Quaczi/QEnchant/master/version.yml"
+		if {_ver} is not {_nver::*}:
+			send "&aNew version of &eQ&6Enchant &awas found&8."
+			send "&aDownloading..."
+			download from "https://raw.githubusercontent.com/Quaczi/QEnchant/master/config.yml" to "plugins/QEnchant/config.yml"
+			download from "https://raw.githubusercontent.com/Quaczi/QEnchant/master/gui.yml" to "plugins/QEnchant/gui.yml"
+			download from "https://raw.githubusercontent.com/Quaczi/QEnchant/master/messages/messages_pl.yml" to "plugins/QEnchant/messages/messages_pl.yml"
+			download from "https://raw.githubusercontent.com/Quaczi/QEnchant/master/messages/messages_en.yml" to "plugins/QEnchant/messages/messages_en.yml"
+			download from "https://raw.githubusercontent.com/Quaczi/QEnchant/master/Code.sk" to "plugins/Skript/scripts/%script%.sk"
+			send "&aNew version has been installed"
+			delete file "plugins/QEnchant/version.yml"
+		else:
+			send "&cYou are usign the newest version of &eQ&6Enchant&8."
+			delete file "plugins/QEnchant/version.yml"
+		wait 5 ticks
+		delete file "plugins/QEnchant/version.yml"
+		
+on break of enchantment table:
+	delete {tien::%event-block%}
 			
+on place of enchantment table:
+	if {qeopt::po} is "true":
+		set {tien::%event-block%} to true
+		while {tien::%event-block%} is true:
+			wait 0.6 second
+			spawn 15 of particle spell:0 offset by 0, 1, 0 at event-block
+		
 	
 command /eee [<player>]:
 	permission: op
