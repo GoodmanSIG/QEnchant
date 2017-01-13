@@ -6,7 +6,7 @@ rename: false
 repair: true
 particles: true
 
-cennik:
+prices:
   unbreaking:
     '1':
       LvL: '5'
@@ -176,13 +176,22 @@ cennik:
       '3':
         LvL: '20'
         Bookshelfs: '13'
-    Power:
+    strength:
       '1':
         LvL: '8'
         Bookshelfs: '3'
       '2':
         LvL: '10'
         Bookshelfs: '8'
+      '3':
+        LvL: '15'
+        Bookshelfs: '10'
+      '4':
+        LvL: '20'
+        Bookshelfs: '15'
+      '5':
+        LvL: '30'
+        Bookshelfs: '20'
     Punch:
       '1':
         LvL: '8'
