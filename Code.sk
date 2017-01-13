@@ -236,6 +236,8 @@ on inventory click:
 					set slot 8 of player's current inventory to ender pearl named "&aReloading &8[&2%{_status}%%%&8]"
 					wait 1.4 ticks
 				set slot 8 of player's current inventory to 1 of eye of ender named "&aReload" with lore "&aLast reload: &e%{qelr}%"
+		if clicked slot is 0:
+			execute player command "qeupd"
 			
 			
 on right click on enchantment table:
@@ -283,6 +285,10 @@ command /qeupd:
 	trigger:
 		set {_ver} to single value "version" get of "plugins/QEnchant/config.yml"
 		set {_nver::*} to result of connect to "https://raw.githubusercontent.com/Quaczi/QEnchant/master/version.yml"
+		loop 5 times:
+			if {_nver::*} is not set:
+				wait 5 ticks
+				set {_nver::*} to result of connect to "https://raw.githubusercontent.com/Quaczi/QEnchant/master/version.yml"
 		if {_ver} is not {_nver::*}:
 			send "&aNew version of &eQ&6Enchant &awas found&8."
 			send "&aDownloading..."
@@ -295,9 +301,6 @@ command /qeupd:
 			delete file "plugins/QEnchant/version.yml"
 		else:
 			send "&cYou are usign the newest version of &eQ&6Enchant&8."
-			delete file "plugins/QEnchant/version.yml"
-		wait 5 ticks
-		delete file "plugins/QEnchant/version.yml"
 		
 on break of enchantment table:
 	delete {tien::%event-block%}
