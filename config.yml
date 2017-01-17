@@ -1,5 +1,5 @@
 version: '0.2'
-locale: 'pl'
+locale: 'en'
 dynamic: true
 random: true
 rename: false
