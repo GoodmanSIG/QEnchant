@@ -23,6 +23,23 @@ function qeReload(t: text):
 	set {qegui::name::name} to single value "names.name" get of "plugins/QEnchant/gui.yml"
 	set {qegui::name::book} to single value "names.books" get of "plugins/QEnchant/gui.yml"
 
+		
+on load:
+	if file "plugins/QEnchant/config.yml" doesn't exists:
+		create file "plugins/QEnchant/config.yml"
+		download from "https://raw.githubusercontent.com/Quaczi/QEnchant/master/config.yml" to "plugins/QEnchant/config.yml"
+	if file "plugins/QEnchant/gui.yml" doesn't exists:
+		create file "plugins/QEnchant/gui.yml"
+		download from "https://raw.githubusercontent.com/Quaczi/QEnchant/master/gui.yml" to "plugins/QEnchant/gui.yml"
+	if file "plugins/QEnchant/messages/messages_pl.yml" doesn't exists:
+		create file "plugins/QEnchant/messages/messages_pl.yml"
+		download from "https://raw.githubusercontent.com/Quaczi/QEnchant/master/messages/messages_pl.yml" to "plugins/QEnchant/messages/messages_pl.yml"
+	if file "plugins/QEnchant/messages/messages_en.yml" doesn't exists:
+		create file "plugins/QEnchant/messages/messages_en.yml"
+		download from "https://raw.githubusercontent.com/Quaczi/QEnchant/master/messages/messages_en.yml" to "plugins/QEnchant/messages/messages_en.yml"
+	execute console command "gamerule sendCommandFeedback false"
+	qeReload("reload")
+	
 function qeUnbr(g: player):
 	loop integers between 1 to 3:
 		set {_nu::%loop-number%} to colored {qename}
@@ -253,9 +270,6 @@ on right click on enchantment table:
 		set {qeee::%player%} to location of clicked block
 		wait 3 ticks
 		execute console command "eee %player%"
-		
-on load:
-	execute console command "gamerule sendCommandFeedback false"
 			
 			
 command /qenchant [<text>]:
@@ -304,6 +318,8 @@ command /qeupd:
 		
 on break of enchantment table:
 	delete {tien::%event-block%}
+	remove location of event-block from {spo::*}
+	delete {pa::%location of event-block%}
 			
 on place of enchantment table:
 	if {qeopt::po} is "true":
